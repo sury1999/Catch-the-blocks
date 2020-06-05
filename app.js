@@ -31,7 +31,7 @@ const size4 = [
 
 const blocks = [size1, size2, size4];
 
-let currentPosition = 9;
+let currentPosition = 1;
 
 let currentPlatformPosition = 778;
 
@@ -43,6 +43,7 @@ function drawPlatform() {
   platform.forEach(index => {
     squares[currentPlatformPosition + index].classList.add('platform');
   })
+
 }
 
 function undrawPlatform() {
@@ -72,8 +73,8 @@ function moveDown() {
   draw();
 
   //need to write
-  remove();
-
+  gameOver();
+  gameContinue();
 
 
 }
@@ -120,30 +121,79 @@ function moveLeft() {
   {
     if(random == 0)
     {
-    timerId = setInterval(moveDown, 1000);
+    timerId = setInterval(moveDown, 2000);
     }
     else if(random == 1)
     {
-      timerId = setInterval(moveDown, 500);
+      timerId = setInterval(moveDown, 1000);
     }
     else if(random == 2)
     {
-      timerId = setInterval(moveDown, 250);
+      timerId = setInterval(moveDown, 550);
     }
     random = Math.floor(Math.random()*blocks.length);
 
   }
 })
 
+// blocks from random position
+function numberOfBlocks (){
+  let newRandom = Math.floor(Math.random()* 10);
+  currentPosition = 4*newRandom;
+  draw();
+}
+//end game
 
 
-draw();
+function gameContinue() {
+  if(current.some(index => squares[currentPosition + index + width].classList.contains('platform'))) {
+  undraw();
+  addScore();
+   random2 = Math.floor(Math.random()*blocks.length);
+   random = random2
+   current = blocks[random2][random2];
+   numberOfBlocks();
+
+
+}
+}
+
+//adds the score
+function addScore() {
+
+    for(let i = 0; i < current.length; i ++)
+    {
+        {
+          score += 1;
+          scoreDisplay.innerHTML = score;
+          const squaresRemoved = squares.splice(i,width);
+          squares = squaresRemoved.concat(squares);
+          squares.forEach(cell => grid.appendChild(cell));
+
+
+        }
+      }
+  }
+
+  function gameOver()
+{
+  if(current.some(index => squares[currentPosition + index + width].classList.contains('taken')))
+  {
+    scoreDisplay.innerHTML = 'end';
+    clearInterval(timerId);
+  }
+}
+
+
+
+
+numberOfBlocks();
 drawPlatform();
+gameOver();
+gameContinue();
 
-//freeze function also
-//platform function
-//score
-//add blocks diff timerid
+//different timings for diff size of blocks, could try arguments
+//blocks get added
 
 
 })

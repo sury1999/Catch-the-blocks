@@ -24,3 +24,7 @@
 body {
   background-color: yellow;
 }
+
+.platformClass {
+  background-color: red;
+}
