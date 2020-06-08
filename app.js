@@ -3,10 +3,14 @@ const grid = document.querySelector('.grid');
 let squares = Array.from(document.querySelectorAll('.grid div'));
 const scoreDisplay = document.querySelector('#score');
 const startBtn = document.querySelector('#start-button');
+const easyBtn = document.querySelector('#difficulty-easy');
+const hardBtn = document.querySelector('#difficulty-hard');
 let timerId;
 const width = 40;
 let score = 0;
-
+//for difficulty
+let easy = 1;
+let difficult = 2;
 //platform
 const platform = [0, 1, 2, 3, 4];
 
@@ -36,7 +40,8 @@ let currentPosition = 1;
 let currentPlatformPosition = 778;
 
 let random = Math.floor(Math.random()*blocks.length);
-let current = blocks[random][random];
+let orientation = Math.floor(Math.random()*blocks.length);
+let current = blocks[random][orientation];
 
 //draw the platform
 function drawPlatform() {
@@ -109,7 +114,7 @@ function moveLeft() {
     drawPlatform();
   }
 
-//start button functionality a
+//start button functionality
   startBtn.addEventListener('click', () => {
   if(timerId)
   {
@@ -117,7 +122,7 @@ function moveLeft() {
     timerId = null;
   }
   else
-  //diff fall speeds for diff blocks
+  //diff fall speeds for the first block only
   {
     if(random == 0)
     {
@@ -129,7 +134,7 @@ function moveLeft() {
     }
     else if(random == 2)
     {
-      timerId = setInterval(moveDown, 550);
+      timerId = setInterval(moveDown, 500);
     }
     random = Math.floor(Math.random()*blocks.length);
 
@@ -150,13 +155,44 @@ function gameContinue() {
   undraw();
   addScore();
    random2 = Math.floor(Math.random()*blocks.length);
-   random = random2
-   current = blocks[random2][random2];
+   orientation2 = Math.floor(Math.random()*blocks.length);
+   current = blocks[random2][orientation2];
    numberOfBlocks();
+   difficulty();
+ }
+}
+   //different falling speeds and difficulty
 
+   function difficulty() {
+   clearInterval(timerId);
+
+   var rates = document.getElementsByName('difficultyType');
+   var rate_value;
+   for(var i = 0; i < rates.length; i++){
+       if(rates[i].checked){
+           rate_value = rates[i].value;
+       }
+   }
+
+      if(random2 == 2)
+     {
+       timerId = setInterval(moveDown, 500/rate_value);
+       console.log(rates);
+     }
+     else if(random2 == 1)
+     {
+       timerId = setInterval(moveDown, 800/rate_value);
+       console.log(rates);
+     }
+     else if(random2 == 0)
+     {
+       timerId = setInterval(moveDown, 1000/rate_value);
+       console.log(rates);
+     }
 
 }
-}
+
+
 
 //adds the score
 function addScore() {
@@ -192,8 +228,10 @@ drawPlatform();
 gameOver();
 gameContinue();
 
-//different timings for diff size of blocks, could try arguments
-//blocks get added
-
+//need to get difficulty added
+//this
+//is
+//for
+//any ctrl+z
 
 })

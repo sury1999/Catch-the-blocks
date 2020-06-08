@@ -11,7 +11,14 @@
 <body>
 <h1> Catch the blocks </h1>
 <h3> Score: <span id="score">0</span></h3>
-<button id="start-button">Start/Pause</button>
+
+<div class="button-container">
+  <button id="start-button">Start/Pause</button>
+  <form id="difficulty">
+    <input type="radio" id="easy" name="difficultyType" value=1>Easy
+    <input type="radio" id="hard" name="difficultyType" value=2>Hard<br>
+  </form>
+</div>
 
   <div class="container">
     <div class="grid">
